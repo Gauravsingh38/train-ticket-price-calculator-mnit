@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# C extensions
+*.pyd
+
+# Virtual environment (optional, uv doesn’t require .venv)
+.venv/
+env/
+venv/
+
+# VSCode & JetBrains IDEs
+.vscode/
+.idea/
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# uv-specific cache
+.uv/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# mypy / typing
+.mypy_cache/
+.dmypy.json
+.pyre/
+
+# logs and misc
+*.log
+.DS_Store
+*.sqlite3
+
+# Ignore local environment config
+.env

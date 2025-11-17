@@ -1,0 +1,26 @@
+name: Run Tests and Calculate Scores
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      pr_user:
+        description: "GitHub ID of PR creator"
+        required: false
+        type: string
+  push:
+
+jobs:
+  call-workflow:
+    uses: Manthhan/hiring-scoring-workflow/.github/workflows/test.yml@main
+    permissions:
+      contents: read
+      pull-requests: write
+    with:
+      scores: ${{ vars.TEST_SCORES }}
+    secrets:
+      bucket_name: ${{ secrets.BUCKET_NAME }}
+      write_key: ${{ secrets.WRITE_KEY }}
+      github_user: ${{ github.event.inputs.pr_user || github.event.pull_request.user.login || github.actor }}
