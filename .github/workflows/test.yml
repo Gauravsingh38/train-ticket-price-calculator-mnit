@@ -1,26 +1,29 @@
-name: Run Tests and Calculate Scores
+name: Python CI
 
 on:
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
-    inputs:
-      pr_user:
-        description: "GitHub ID of PR creator"
-        required: false
-        type: string
   push:
+    branches: [ "main", "fix-pricing-strategy" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  call-workflow:
-    uses: Manthhan/hiring-scoring-workflow/.github/workflows/test.yml@main
-    permissions:
-      contents: read
-      pull-requests: write
-    with:
-      scores: ${{ vars.TEST_SCORES }}
-    secrets:
-      bucket_name: ${{ secrets.BUCKET_NAME }}
-      write_key: ${{ secrets.WRITE_KEY }}
-      github_user: ${{ github.event.inputs.pr_user || github.event.pull_request.user.login || github.actor }}
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        pytest -q
